@@ -2,6 +2,8 @@
 
 Site Next/Vinext avec formulaire de demande de réservation, base Cloudflare D1 et tableau de gestion.
 
+**Pour installer le code sur votre propre compte : [guide pas à pas](INSTALLATION.md).**
+
 ## Fichiers à copier
 
 - `app/page.tsx` : page d'accueil et formulaire.
