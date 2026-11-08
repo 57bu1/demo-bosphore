@@ -1,0 +1,1 @@
+ALTER TABLE `reservations` ADD `items` text DEFAULT '[]' NOT NULL;

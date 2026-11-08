@@ -3,10 +3,12 @@ import { desc, eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { getDb } from "../../../db";
 import { reservations } from "../../../db/schema";
+import { categories } from "../../menu-data";
 
 export const runtime = "edge";
 
 function validPhone(value: string) { return /^[+0-9 () .-]{8,30}$/.test(value) && value.replace(/\D/g, "").length >= 8; }
+const menuNames = new Set<string>(categories.flatMap(category => category.items.map(item => item.name)));
 
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
@@ -18,11 +20,12 @@ export async function POST(request: NextRequest) {
   const time = String(body.time ?? "");
   const guests = Number(body.guests);
   const note = String(body.note ?? "").trim();
+  const items = Array.isArray(body.items) ? body.items : [];
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-  if (!name || name.length > 80 || !validPhone(phone) || !/^\d{4}-\d{2}-\d{2}$/.test(date) || date < today || !/^\d{2}:\d{2}$/.test(time) || time < "10:00" || time > "23:00" || !Number.isInteger(guests) || guests < 1 || guests > 12 || note.length > 500) return NextResponse.json({ error: "Veuillez vérifier les informations saisies." }, { status: 400 });
+  if (!name || name.length > 80 || !validPhone(phone) || !/^\d{4}-\d{2}-\d{2}$/.test(date) || date < today || !/^\d{2}:\d{2}$/.test(time) || time < "10:00" || time > "23:00" || !Number.isInteger(guests) || guests < 1 || guests > 12 || note.length > 500 || items.length > 20 || items.some(item => !item || !menuNames.has(item.name) || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 20) || items.reduce((sum, item) => sum + item.quantity, 0) > 50) return NextResponse.json({ error: "Veuillez vérifier les informations saisies." }, { status: 400 });
   const id = crypto.randomUUID();
   try {
-    await getDb().insert(reservations).values({ id, name, phone, date, time, guests, note });
+    await getDb().insert(reservations).values({ id, name, phone, date, time, guests, note, items: JSON.stringify(items) });
     return NextResponse.json({ reference: id.slice(0, 8).toUpperCase() }, { status: 201 });
   } catch { return NextResponse.json({ error: "Service indisponible" }, { status: 503 }); }
 }

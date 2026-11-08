@@ -5,6 +5,8 @@ Site Next/Vinext avec formulaire de demande de réservation, base Cloudflare D1 
 ## Fichiers à copier
 
 - `app/page.tsx` : page d'accueil et formulaire.
+- `app/menu.tsx`, `app/menu-data.ts` : vraie carte et sélection des plats.
+- `app/selected-items.tsx` : plats choisis dans la demande de réservation.
 - `app/globals.css` : styles responsives.
 - `app/layout.tsx` : métadonnées et langue.
 - `app/api/reservations/route.ts` : création et gestion des demandes.
@@ -14,6 +16,8 @@ Site Next/Vinext avec formulaire de demande de réservation, base Cloudflare D1 
 - `.openai/hosting.json` : configuration Sites et base D1.
 
 Le formulaire est une **demande** : la réservation n'est confirmée qu'après un appel du restaurant. Les demandes sont stockées dans D1 et consultables sur `/gestion` avec le code secret configuré dans la variable d'environnement `RESERVATION_ADMIN_CODE`.
+
+La carte et ses prix sont repris de la fiche Uber Eats du Bosphore à Bourges consultée le 8 novembre 2026. Les prix sur place peuvent différer.
 
 Pour lancer localement après installation des dépendances : `npm run dev`. Pour créer une migration après un changement de schéma : `npm run db:generate`.
 

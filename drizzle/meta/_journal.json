@@ -8,6 +8,13 @@
       "when": 1794138720377,
       "tag": "0000_abnormal_marvel_zombies",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1794140092463,
+      "tag": "0001_blue_aaron_stack",
+      "breakpoints": true
     }
   ]
 }

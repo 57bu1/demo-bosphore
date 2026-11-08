@@ -9,6 +9,7 @@ export const reservations = sqliteTable("reservations", {
   time: text("time").notNull(),
   guests: integer("guests").notNull(),
   note: text("note").notNull().default(""),
+  items: text("items").notNull().default("[]"),
   status: text("status").notNull().default("pending"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
