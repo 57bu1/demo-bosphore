@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `reservations_active_slot_unique` ON `reservations` (`date`,`time`) WHERE status <> 'declined';

@@ -10,12 +10,16 @@ Site Next/Vinext avec formulaire de demande de réservation, base Cloudflare D1 
 - `app/globals.css` : styles responsives.
 - `app/layout.tsx` : métadonnées et langue.
 - `app/api/reservations/route.ts` : création et gestion des demandes.
-- `app/gestion/page.tsx` : tableau de gestion.
+- `app/gestion/page.tsx` : connexion du compte restaurant et tableau de gestion.
+- `app/gestion/planning.tsx` : planning quotidien des réservations.
+- `app/booking-slot-picker.tsx`, `app/booking-slots.ts` : choix des heures disponibles.
 - `db/schema.ts` : structure de la base de données.
 - `public/hero-kebab.png` : visuel d'illustration généré pour ce projet.
 - `.openai/hosting.json` : configuration Sites et base D1.
 
-Le formulaire est une **demande** : la réservation n'est confirmée qu'après un appel du restaurant. Les demandes sont stockées dans D1 et consultables sur `/gestion` avec le code secret configuré dans la variable d'environnement `RESERVATION_ADMIN_CODE`.
+Le formulaire est une **demande** : la réservation n'est confirmée qu'après un appel du restaurant. Les demandes sont stockées dans D1 et consultables sur `/gestion` avec le compte restaurant (identifiant `lebosphore`, mot de passe dans la variable secrète `RESERVATION_ADMIN_CODE`). Le mot de passe ne doit jamais être commité.
+
+Une seule demande active est acceptée par date et par heure. Un créneau refusé ou supprimé redevient disponible. Le planning du restaurant se rafraîchit toutes les 5 secondes.
 
 La carte et ses prix sont repris de la fiche Uber Eats du Bosphore à Bourges consultée le 8 novembre 2026. Les prix sur place peuvent différer.
 

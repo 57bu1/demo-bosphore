@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./menu.css";
 import "./order.css";
+import "./planning.css";
 
 export const metadata: Metadata = {
   title: "Le Bosphore | Restaurant turc à Bourges",
